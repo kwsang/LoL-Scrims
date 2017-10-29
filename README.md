@@ -20,15 +20,11 @@ What things you need to install the software and how to install them
 
 A step by step series of examples that tell you have to get a development env running
 
+```
 Install sbt version 1.0.2.
-
-```
 Use sbt run command in command prompt at main project directory.
-```
-
 Go to [http://localhost:9000](http://localhost:9000).
-
-End with an example of getting some data out of the system or using it for a little demo
+```
 
 ## Running the tests
 
@@ -40,7 +36,7 @@ Just use the test command: sbt test
 
 ### Break down into end to end tests
 
-Explain what these tests test and why
+TODO: End to End Tests
 
 ```
 Give an example
@@ -48,6 +44,7 @@ Give an example
 
 ### And coding style tests
 
+TODO: Coding Style Tests
 ```
 Give an example
 ```
@@ -69,8 +66,6 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 For the versions available, see the [tags on this repository](https://github.com/kanglaive/LoL-Scrims/tags). 
 
 ## Authors
-
-
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
