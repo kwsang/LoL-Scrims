@@ -55,7 +55,9 @@ Follow deployment procedures as shown by [PlayFramework docs](https://www.playfr
 
 ## Built With
 
-* [Play Framework](https://www.playframework.com/documentation/2.6.x/Home) - The web framework used
+* [Play Framework](https://www.playframework.com/documentation/2.6.x/Home) - Java/Scala Web Framework
+* [Bootstrap Framework](https://getbootstrap.com/docs/3.3/) - HTML/CSS Bootstrap
+
 
 ## Contributing
 
