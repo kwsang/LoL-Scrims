@@ -1,6 +1,6 @@
 # LoL-Scrims
 
-This application is for League of Legends players to help manage and set-up custom game scrims, as well as track custom game statistics.
+This application is for League of Legends players to help manage and set-up custom game scrims, as well as track custom game statistics. The minimum viable features are: tracking scrim results and statistics over time, coordinating teams and balancing, and coordinating custom game modes within the community. 
 
 ## Getting Started
 
