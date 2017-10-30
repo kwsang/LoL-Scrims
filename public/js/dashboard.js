@@ -4,14 +4,6 @@ $('#addPlayer').click(function () {
     var player = document.createElement('li');
     player.appendChild(document.createTextNode(username));
     playersNav.appendChild(player);
-
+    // clear player field after adding
+    $('input[name=inputUsername').val('');
 });
-
-function addPlayer() {
-    var playersNav = document.getElementById('player-nav');
-    var username = document.getElementById('inputUsername').value;
-    var player = document.createElement('li');
-    player.appendChild(document.createTextNode(username));
-    playersNav.appendChild(player);
-    $('inputUsername').reset();
-}
