@@ -1,0 +1,22 @@
+{
+  "name": "lol-scrims",
+  "version": "1.0.0",
+  "description": "Helping League of Legends players manage, track, and organize custom matches.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kanglaive/LoL-Scrims.git"
+  },
+  "author": "Quang Vo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kanglaive/LoL-Scrims/issues"
+  },
+  "homepage": "https://github.com/kanglaive/LoL-Scrims#readme",
+  "dependencies": {
+    "firebase": "^4.6.0"
+  }
+}
