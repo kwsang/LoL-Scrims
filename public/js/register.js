@@ -16,11 +16,18 @@ document.getElementById('register-submit').addEventListener('click', function ()
         user.sendEmailVerification();
         alert("An email verification was sent to " + email + ".", 5000);
         window.location.replace("index");
+        var userUpdates = {};
+        userUpdates['/users/' + user.uid + '/username'] = username;
+        userUpdates['/users/' + user.uid + '/email'] = email;
+        userUpdates['/players/' + username + '/exists'] = 'true';
+        /*
         var userRef = database.ref("users/" + user.uid);
         userRef.set({
             username: username,
             email: email
         });
+        */
+        database.ref().update(userUpdates);
     }).catch(function (registerError) {
         alert(registerError.message);
     });
