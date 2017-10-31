@@ -38,3 +38,12 @@ function addToPlayers(username) {
     }
 }
 
+function checkPlayer(username) {
+    var xhr = new XMLHttpRequest();
+    var riotapi = ;
+    xhr.open("GET", riotapi, false);
+    xhr.send();
+
+    console.log(xhr.status);
+    console.log(xhr.statusText);
+}
