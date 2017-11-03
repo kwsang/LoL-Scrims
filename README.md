@@ -11,52 +11,15 @@ These instructions will get you a copy of the project up and running on your loc
 What things you need to install the software and how to install them
 
 ```
-* [sbt-1.0.2](http://www.scala-sbt.org/download.html)
-* [Java jre 1.8.0_151](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html)
-* [Java jdk 1.8.0_151](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+* Node.js
+* firebase-tools
 ```
-
-### Installing
-
-A step by step series of examples that tell you have to get a development env running
-
-```
-Install sbt version 1.0.2.
-Use sbt run command in command prompt at main project directory.
-Go to [http://localhost:9000](http://localhost:9000).
-```
-
-## Running the tests
-
-Follow testing procedures as shown by [JUnit Tests](https://www.playframework.com/documentation/2.6.x/JavaTest).
-
-```
-Just use the test command: sbt test
-```
-
-### Break down into end to end tests
-
-TODO: End to End Tests
-
-```
-Give an example
-```
-
-### And coding style tests
-
-TODO: Coding Style Tests
-```
-Give an example
-```
-
-## Deployment
-
-Follow deployment procedures as shown by [PlayFramework docs](https://www.playframework.com/documentation/2.6.x/Deploying).
 
 ## Built With
 
-* [Play Framework](https://www.playframework.com/documentation/2.6.x/Home) - Java/Scala Web Framework
-* [Bootstrap Framework](https://getbootstrap.com/docs/3.3/) - HTML/CSS Bootstrap
+* Firebase-tools - Database Backend
+* Bootstrap Framework - HTML/CSS Bootstrap
+* (No longer using Play Framework).
 
 
 ## Contributing
