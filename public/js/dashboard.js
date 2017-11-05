@@ -11,7 +11,7 @@ $('#addPlayer').click(function () {
         addToPlayers(username);
     }
     // clear player field after adding
-    $('input[name=inputUsername').val('');
+    $('#inputUsername').val('');
 });
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -21,8 +21,10 @@ document.addEventListener('DOMContentLoaded', function () {
             var userRef = database.ref('users/' + uid + '/players');
             var numPlayers = 1;
             userRef.orderByKey().on('child_added', function (snap) {
-                addToPlayers(snap.key, numPlayers);
-                numPlayers++;
+                if (snap.val = 'true') {
+                    addToPlayers(snap.key, numPlayers);
+                    numPlayers++;
+                }
             });
         }
     });
@@ -35,9 +37,11 @@ function addToPlayers(username, numPlayers) {
         var deleteCell = row.insertCell(0);
         var deleteLink = document.createElement('a');
         deleteLink.setAttribute('href', 'javascript:void(0)');
+        deleteLink.setAttribute('class', 'removeLink');
         deleteLink.innerHTML = '<i class="fa fa-times-circle prefix grey-text"></i>';
         deleteCell.appendChild(deleteLink);
         var player = row.insertCell(1);
+        player.setAttribute('class', 'username');
         var playerLink = document.createElement('a');
         playerLink.setAttribute('href', 'javascript:void(0)');
         player.appendChild(playerLink);
@@ -45,7 +49,13 @@ function addToPlayers(username, numPlayers) {
     }
 }
 
-$('#myTab a').click(function (e) {
-    e.preventDefault()
-    $(this).tab('show')
-})      
+$(document).on('click', 'a.removeLink', function() {
+    const row = $(this).closest('tr');
+    const username = row.find('a').text();
+    console.log(username);
+    row.remove();
+    var user = firebase.auth().currentUser;
+    var playerRef = database.ref('users/' + user.uid + '/players/' + username);
+    playerRef.remove();
+    return false;
+});
