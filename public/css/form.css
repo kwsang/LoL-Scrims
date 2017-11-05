@@ -1,0 +1,30 @@
+.flex-center {
+    color: #fff;
+}
+
+.intro-1 {
+    background: url("../img/gray-landscape.jpeg")no-repeat center center;
+    background-size: cover;
+}
+
+.navbar .btn-group .dropdown-menu a:hover {
+    color: #000 !important;
+}
+.form-control:focus {
+    color: #fff;
+}
+.md-form label {
+    color: #ccc;
+}
+
+.md-form label.active {
+    color: #E0F7FA;
+}
+
+.md-form input {
+    color: #fff;
+}
+
+.navbar .btn-group .dropdown-menu a:active {
+    color: #fff !important;
+}

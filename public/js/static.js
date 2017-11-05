@@ -27,12 +27,9 @@ auth.onAuthStateChanged(function (user) {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
+    $('#navbar').load('navbar.html');
     $('#footer').load('footer.html');
-    $('#fixed-navbar').load('navbar.html');
-
 });
-
-
 
 $('#logout').click(function () {
     auth.signOut().then(function () {

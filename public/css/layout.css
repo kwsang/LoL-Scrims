@@ -1,0 +1,28 @@
+main {
+    padding-top: 3rem;
+    padding-bottom: 2rem;
+}
+
+.extra-margins {
+    margin-top: 1rem;
+    margin-bottom: 2.5rem;
+}
+
+.jumbotron {
+    text-align: center;
+}
+
+.navbar {
+    background-color: #006064;
+}
+
+footer.page-footer {
+    background-color: #006064;
+    margin-top: 2rem;
+}
+.navbar .btn-group .dropdown-menu a:hover {
+    color: #000 !important;
+}
+.navbar .btn-group .dropdown-menu a:active {
+    color: #fff !important;
+}
