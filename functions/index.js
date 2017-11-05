@@ -5,10 +5,34 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 
+// CORS Express middleware for CORS requests
+const express = require('express');
+const cors = require('cors');
+let app = express();
+app.use(cors());
+
 const request = require('request');
+
+// Pulling RIOT API key from hidden local file
+var api_key = '';
 const riotAPI = 'https://na1.api.riotgames.com/';
 const fs = require('fs');
-const api_key = fs.readFileSync('api_key.json');
+const apiKeyFile = fs.readFile('api_key.json', 'utf8', function(err, contents) {
+  if (err) throw err;
+  const parsedJSON = JSON.parse(contents);
+  api_key = parsedJSON.key;
+});
+
+exports.testPlayer = functions.https.onRequest((req, res) => {
+  const username = req.query.text;
+  console.log(api_key);
+  /*
+  admin.database().ref('/players/' + username).push({key: api_key}).then(snapshot => {
+    res.redirect(303, snapshot.ref);
+  });
+  */
+  res.status(400).redirect('');
+});
 
 exports.checkPlayer = functions.database.ref('/players/{username}/exists').onWrite(event => {
   const summonerAPI = '/lol/summoner/v3/summoners/by-name/' + event.params.username + '?api_key=' + api_key;
@@ -22,13 +46,14 @@ exports.checkPlayer = functions.database.ref('/players/{username}/exists').onWri
       summonerData['accountID'] = body.accountId;
       return event.data.ref.parent.update(summonerData);
     } else {
-      res.redirect('index');
+      res.status(400).redirect('/index');
     }
   });
 });
 
-// Take the text parameter passed to this HTTP endpoint and insert it into the
-// Realtime Database under the path /messages/:pushId/original
+/* Take the text parameter passed to this HTTP endpoint and insert it into the
+ * Realtime Database under the path /messages/:pushId/original
+ */
 exports.addMessage = functions.https.onRequest((req, res) => {
   // Grab the text parameter.
   const original = req.query.text;
