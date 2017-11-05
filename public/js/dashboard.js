@@ -1,3 +1,11 @@
+var api_key;
+$.getJSON('api_key.json', function(data) {
+    $.each(data, function(key, val) {
+        api_key = val;
+        console.log(api_key);
+    });
+});
+
 $('#addPlayer').click(function () {
     var username = document.getElementById('inputUsername').value;
     var auth = firebase.auth();
@@ -13,6 +21,16 @@ $('#addPlayer').click(function () {
     // clear player field after adding
     $('input[name=inputUsername').val('');
 });
+
+$('#testAPI').click(function () {
+    console.log(api_key);
+    const riotAPI = 'https://na1.api.riotgames.com/';
+    const username = document.getElementById('inputUsername').value;
+    const summonerAPI = riotAPI + '/lol/summoner/v3/summoners/by-name/' + username + '?api_key=' + api_key;
+    var riotRequest = new XMLHttpRequest();
+    riotRequest.open('GET', summonerAPI);
+    riotRequest.send();
+})
 
 document.addEventListener('DOMContentLoaded', function () {
     auth.onAuthStateChanged(function (user) {

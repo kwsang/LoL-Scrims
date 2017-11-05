@@ -3,17 +3,26 @@ const functions = require('firebase-functions');
 
 // The Firebase Admin SDK to access the Firebase Realtime Database. 
 const admin = require('firebase-admin');
-const request = require('request');
 admin.initializeApp(functions.config().firebase);
+
+const request = require('request');
 const riotAPI = 'https://na1.api.riotgames.com/';
 const fs = require('fs');
 const api_key = fs.readFileSync('api_key.json');
 
-exports.checkPlayer = functions.database.ref('/players/{username}/').onWrite(event => {
+exports.checkPlayer = functions.database.ref('/players/{username}/exists').onWrite(event => {
   const summonerAPI = '/lol/summoner/v3/summoners/by-name/' + event.params.username + '?api_key=' + api_key;
   request(summonerAPI, function(err, res, body) {
+    console.log(res.statusCode);
     if (!err && res.statusCode == 200) {
       console.log(body);
+      const summonerData = {};
+      summonerData['level'] = body.summonerLevel;
+      summonerData['summonerID'] = body.id;
+      summonerData['accountID'] = body.accountId;
+      return event.data.ref.parent.update(summonerData);
+    } else {
+      res.redirect('index');
     }
   });
 });
