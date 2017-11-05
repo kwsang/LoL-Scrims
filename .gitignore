@@ -4,7 +4,6 @@ node_modules
 /coverage
 firebase-debug.log
 npm-debug.log
-package-lock.json
 
 .DS_Store
 .idea
