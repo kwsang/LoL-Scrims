@@ -25,28 +25,45 @@ const apiKeyFile = fs.readFile('api_key.json', 'utf8', function(err, contents) {
 
 exports.testPlayer = functions.https.onRequest((req, res) => {
   const username = req.query.text;
-  console.log(api_key);
+  const summonerAPI = riotAPI + '/lol/summoner/v3/summoners/by-name/' + req.query.text + '?api_key=' + api_key;
+  request(summonerAPI, function(err, res, body) {
+    if (err) {
+      res.redirect(400, '/index');
+    } else if (!err && res.statusCode == 200) {
+      const parsedBody = JSON.parse(body);
+      const summonerData = {};
+      summonerData['level'] = parsedBody.summonerLevel;
+      summonerData['summonerID'] = parsedBody.id;
+      summonerData['accountID'] = parsedBody.accountId;
+      admin.database().ref('players/' + req.query.text).update(summonerData);
+      res.redirect(200, '/index');
+    }
+  });
   /*
   admin.database().ref('/players/' + username).push({key: api_key}).then(snapshot => {
     res.redirect(303, snapshot.ref);
   });
   */
-  res.status(400).redirect('');
+  res.redirect(303, '/index');
 });
 
+/*
+ * Pulls player's data using summoner name from RIOT API once added to the players database
+ */
 exports.checkPlayer = functions.database.ref('/players/{username}/exists').onWrite(event => {
-  const summonerAPI = '/lol/summoner/v3/summoners/by-name/' + event.params.username + '?api_key=' + api_key;
+  const summonerAPI = riotAPI + '/lol/summoner/v3/summoners/by-name/' + event.params.username + '?api_key=' + api_key;
   request(summonerAPI, function(err, res, body) {
-    console.log(res.statusCode);
-    if (!err && res.statusCode == 200) {
-      console.log(body);
+    if (err) {
+      res.redirect('/index');
+    } else if (!err && res.statusCode == 200) {
+      const parsedBody = JSON.parse(body);
       const summonerData = {};
-      summonerData['level'] = body.summonerLevel;
-      summonerData['summonerID'] = body.id;
-      summonerData['accountID'] = body.accountId;
+      summonerData['level'] = parsedBody.summonerLevel;
+      summonerData['summonerID'] = parsedBody.id;
+      summonerData['accountID'] = parsedBody.accountId;
       return event.data.ref.parent.update(summonerData);
     } else {
-      res.status(400).redirect('/index');
+      res.direct('/index');
     }
   });
 });
