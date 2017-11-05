@@ -18,6 +18,7 @@
   "homepage": "https://github.com/kanglaive/LoL-Scrims#readme",
   "dependencies": {
     "firebase": "^4.6.0",
-    "firebase-functions": "^0.7.2"
+    "firebase-functions": "^0.7.2",
+    "request": "^2.83.0"
   }
 }

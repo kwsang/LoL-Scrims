@@ -4,6 +4,7 @@ node_modules
 /coverage
 firebase-debug.log
 npm-debug.log
+api_key.json
 
 .DS_Store
 .idea

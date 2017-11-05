@@ -3,7 +3,20 @@ const functions = require('firebase-functions');
 
 // The Firebase Admin SDK to access the Firebase Realtime Database. 
 const admin = require('firebase-admin');
+const request = require('request');
 admin.initializeApp(functions.config().firebase);
+const riotAPI = 'https://na1.api.riotgames.com/';
+const fs = require('fs');
+const api_key = fs.readFileSync('api_key.json');
+
+exports.checkPlayer = functions.database.ref('/players/{username}/').onWrite(event => {
+  const summonerAPI = '/lol/summoner/v3/summoners/by-name/' + event.params.username + '?api_key=' + api_key;
+  request(summonerAPI, function(err, res, body) {
+    if (!err && res.statusCode == 200) {
+      console.log(body);
+    }
+  });
+});
 
 // Take the text parameter passed to this HTTP endpoint and insert it into the
 // Realtime Database under the path /messages/:pushId/original
