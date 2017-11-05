@@ -9,17 +9,11 @@ const riotAPI = 'https://na1.api.riotgames.com/';
 const fs = require('fs');
 const api_key = fs.readFileSync('api_key.json');
 
-exports.checkPlayer = functions.database.ref('/players/{username}').onWrite(event => {
+exports.checkPlayer = functions.database.ref('/players/{username}/').onWrite(event => {
   const summonerAPI = '/lol/summoner/v3/summoners/by-name/' + event.params.username + '?api_key=' + api_key;
   request(summonerAPI, function(err, res, body) {
-    console.log(res.statusCode);
     if (!err && res.statusCode == 200) {
       console.log(body);
-      const summonerData = {};
-      summonerData['level'] = body.summonerLevel;
-      summonerData['summonerID'] = body.id;
-      summonerData['accountID'] = body.accountId;
-      return event.data.ref.update(summonerData);
     }
   });
 });

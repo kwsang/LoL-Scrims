@@ -3,12 +3,9 @@ $('#addPlayer').click(function () {
     var auth = firebase.auth();
     var user = auth.currentUser;
     if (user) {
-        var playerRef = database.ref('players');
-        var playerKey = playerRef.push({
-            username: username
-        });
         var playerData = {};
-        playerData['users/' + user.uid + '/players/' + playerKey.key] = 'true';
+        playerData['/users/' + user.uid + '/players/' + username] = 'true';
+        playerData['/players/' + username + '/exists'] = 'true';
         database.ref().update(playerData);
     } else {
         addToPlayers(username);
@@ -22,19 +19,13 @@ document.addEventListener('DOMContentLoaded', function () {
         if (user) {
             var uid = user.uid;
             var userRef = database.ref('users/' + uid + '/players');
-            // check for child added to user's list of players
             userRef.orderByKey().on('child_added', function (snap) {
-                // pull username from player tree using player key
-                var playerRef = database.ref('players/' + snap.key + '/username');
-                playerRef.once('value').then(function(playersnap) {
-                    addToPlayers(playersnap.val());
-                })
+                addToPlayers(snap.key);
             });
         }
     });
 });
 
-// add player to table of players on dashboard
 function addToPlayers(username) {
     if (username != '' && username != null) {
         var playersNav = document.getElementById('player-nav');
