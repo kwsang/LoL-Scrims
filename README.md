@@ -19,6 +19,7 @@ What things you need to install the software and how to install them
 
 * Firebase-tools - Database Backend
 * Bootstrap Framework - HTML/CSS Bootstrap
+* Material Design Bootstrap Framework
 * (No longer using Play Framework).
 
 
