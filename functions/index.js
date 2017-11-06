@@ -23,6 +23,7 @@ const apiKeyFile = fs.readFile('api_key.json', 'utf8', function(err, contents) {
   api_key = parsedJSON.key;
 });
 
+/*
 exports.testPlayer = functions.https.onRequest((req, res) => {
   const username = req.query.text;
   const summonerAPI = riotAPI + '/lol/summoner/v3/summoners/by-name/' + req.query.text + '?api_key=' + api_key;
@@ -43,9 +44,11 @@ exports.testPlayer = functions.https.onRequest((req, res) => {
   admin.database().ref('/players/' + username).push({key: api_key}).then(snapshot => {
     res.redirect(303, snapshot.ref);
   });
-  */
+  
   res.redirect(303, '/index');
 });
+
+*/
 
 /*
  * Pulls player's data using summoner name from RIOT API once added to the players database
@@ -68,9 +71,10 @@ exports.checkPlayer = functions.database.ref('/players/{username}/exists').onWri
   });
 });
 
+
 /* Take the text parameter passed to this HTTP endpoint and insert it into the
  * Realtime Database under the path /messages/:pushId/original
- */
+ 
 exports.addMessage = functions.https.onRequest((req, res) => {
   // Grab the text parameter.
   const original = req.query.text;
@@ -94,3 +98,5 @@ exports.makeUppercase = functions.database.ref('/messages/{pushId}/original')
       // Setting an "uppercase" sibling in the Realtime Database returns a Promise.
       return event.data.ref.parent.child('uppercase').set(uppercase);
     });
+
+*/
