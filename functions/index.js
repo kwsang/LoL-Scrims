@@ -23,32 +23,31 @@ const apiKeyFile = fs.readFile('api_key.json', 'utf8', function(err, contents) {
   api_key = parsedJSON.key;
 });
 
-/*
+
 exports.testPlayer = functions.https.onRequest((req, res) => {
-  const username = req.query.text;
-  const summonerAPI = riotAPI + '/lol/summoner/v3/summoners/by-name/' + req.query.text + '?api_key=' + api_key;
-  request(summonerAPI, function(err, res, body) {
+  const leagueAPI = riotAPI + '/lol/league/v3/positions/by-summoner/' + req.query.text + '?api_key=' + api_key;
+  request(leagueAPI, function(err, res, body) {
     if (err) {
-      res.redirect(400, '/index');
+      res.redirect('/');
     } else if (!err && res.statusCode == 200) {
-      const parsedBody = JSON.parse(body);
+      const bodyjson = JSON.parse(body);
       const summonerData = {};
-      summonerData['level'] = parsedBody.summonerLevel;
-      summonerData['summonerID'] = parsedBody.id;
-      summonerData['accountID'] = parsedBody.accountId;
-      admin.database().ref('players/' + req.query.text).update(summonerData);
-      res.redirect(200, '/index');
+      console.log(bodyjson);
+      for (var i in bodyjson) {
+        console.log(bodyjson[i]);
+        const location = (bodyjson[i].queueType == 'RANKED_FLEX_SR') ? 'flex' : ((bodyjson[i].queueType == 'RANKED_SOLO_5x5') ? 'solo' : 'tt');
+        summonerData['ranked/' + location + '/wins'] = bodyjson[i].wins;
+        summonerData['ranked/' + location + '/losses'] = bodyjson[i].losses;
+        summonerData['ranked/' + location + '/rank'] = bodyjson[i].tier + bodyjson[i].rank + bodyjson[i].leaguePoints;
+        summonerData['ranked/' + location + 'rankScore'] = 
+      }
+      admin.database().ref('players/ksanghc/').update(summonerData);
     }
   });
-  /*
-  admin.database().ref('/players/' + username).push({key: api_key}).then(snapshot => {
-    res.redirect(303, snapshot.ref);
-  });
-  
-  res.redirect(303, '/index');
+  res.redirect(303, '');
 });
 
-*/
+
 
 /*
  * Pulls player's data using summoner name from RIOT API once added to the players database
@@ -65,8 +64,30 @@ exports.checkPlayer = functions.database.ref('/players/{username}/exists').onWri
       summonerData['summonerID'] = parsedBody.id;
       summonerData['accountID'] = parsedBody.accountId;
       return event.data.ref.parent.update(summonerData);
-    } else {
-      res.direct('/index');
+    }
+  });
+});
+
+exports.getRank = functions.database.ref('/players/{username}/{summonerID}').onWrite(event => {
+  const leagueAPI = riotAPI + '/lol/league/v3/positions/by-summoner/' + event.params.summonerID + '?api_key=' + api_key;
+  request(leagueAPI, function(err, res, body) {
+    if (err) {
+      res.redirect('/');
+    } else if (!err && res.statusCode == 200) {
+      const bodyjson = JSON.parse(body);
+      const summonerData = {};
+      for (var league in bodyjson) {
+        if (league.queueType == 'RANKED_FLEX_SR') {
+          summonerData['ranked/solo/wins'] = league.wins;
+          summonerData['ranked/solo/losses'] = league.losses;
+          summonerData['ranked/solo/rank'] = league.tier + league.rank + league.leaguePoints;
+        } else if (league.queueType == 'RANKED_SOLO_5x5') {
+          summonerData['ranked/flex/wins'] = league.wins;
+          summonerData['ranked/flex/losses'] = league.losses;
+          summonerData['ranked/flex/rank'] = league.tier + league.rank + league.leaguePoints;
+        }
+      }
+      return event.data.ref.parent.update(summonerData);
     }
   });
 });

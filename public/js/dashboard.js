@@ -19,21 +19,19 @@ document.addEventListener('DOMContentLoaded', function () {
         if (user) {
             var uid = user.uid;
             var userRef = database.ref('users/' + uid + '/players');
-            var numPlayers = 1;
             userRef.orderByKey().on('child_added', function (snap) {
                 if (snap.val = 'true') {
-                    addToPlayers(snap.key, numPlayers);
-                    numPlayers++;
+                    addToPlayers(snap.key);
                 }
             });
         }
     });
 });
 
-function addToPlayers(username, numPlayers) {
+function addToPlayers(username) {
     if (username != '' && username != null) {
         var playersNav = document.getElementById('player-nav');
-        var row = playersNav.insertRow(numPlayers);
+        var row = playersNav.insertRow(-1);
         var deleteCell = row.insertCell(0);
         var deleteLink = document.createElement('a');
         deleteLink.setAttribute('href', 'javascript:void(0)');
@@ -52,7 +50,6 @@ function addToPlayers(username, numPlayers) {
 $(document).on('click', 'a.removeLink', function() {
     const row = $(this).closest('tr');
     const username = row.find('a').text();
-    console.log(username);
     row.remove();
     var user = firebase.auth().currentUser;
     var playerRef = database.ref('users/' + user.uid + '/players/' + username);
